@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Work experience for a Contact</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <label>Experience</label>
+    <nameField>
+        <label>Experience Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Experiences</pluralLabel>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

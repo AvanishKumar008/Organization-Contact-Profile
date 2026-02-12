@@ -10,6 +10,7 @@ Salesforce professional profile project with Experience, Skills, Projects and Ev
 - **[Non-Functional Requirements (NFR)](docs/NFR.md)** – Non-functional requirements
 - **[Stories and Tasks](docs/STORIES.md)** – Implementation stories and tasks
 - **[CI/CD Setup](docs/CI-CD.md)** – GitHub Actions setup and branch protection
+- **[Test Plan](docs/TEST_PLAN.md)** – Test cases and execution checklist
 
 ## Quick Overview
 

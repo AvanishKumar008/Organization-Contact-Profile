@@ -12,6 +12,8 @@ node_modules/
 .forceignore
 .localdevserver
 *.local
+.sf/
+.sfdx/
 
 # IDE
 .idea/

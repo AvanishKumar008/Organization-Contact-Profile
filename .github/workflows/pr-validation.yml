@@ -1,0 +1,57 @@
+# PR Validation - Deploy to Scratch Org and Validate
+# Triggers on pull_request to main
+# Must pass before merge (NFR-005, NFR-006, NFR-007)
+
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'force-app/**'
+      - 'config/**'
+      - 'sfdx-project.json'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate Deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Salesforce CLI
+        uses: salesforcecli/setup-sf@v3
+
+      - name: Authenticate to DevHub
+        env:
+          SF_DEVHUB_AUTH_URL: ${{ secrets.SF_DEVHUB_AUTH_URL }}
+        run: |
+          echo "$SF_DEVHUB_AUTH_URL" | base64 -d > auth_url.txt
+          sf org login sfdxurl --sfdx-url-file auth_url.txt --alias DevHub --set-default
+
+      - name: Create Scratch Org
+        run: |
+          sf org create scratch \
+            --definition-file config/project-scratch-def.json \
+            --alias "pr-${{ github.event.pull_request.number || github.run_id }}" \
+            --set-default \
+            --duration-days 1
+
+      - name: Deploy to Scratch Org
+        run: |
+          sf project deploy start \
+            --source-dir force-app/main/default \
+            --target-org pr-${{ github.event.pull_request.number || github.run_id }} \
+            --wait 10
+
+      - name: Delete Scratch Org
+        if: always()
+        run: |
+          sf org delete scratch \
+            --target-org pr-${{ github.event.pull_request.number || github.run_id }} \
+            --no-prompt \
+            --force || true

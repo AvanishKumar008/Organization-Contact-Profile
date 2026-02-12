@@ -6,6 +6,10 @@ Salesforce professional profile project with Experience, Skills, Projects and Ev
 
 - **[Project Plan](docs/PROJECT_PLAN.md)** – Overall detailed implementation plan with phases, timeline, and deliverables
 - **[Solution Document](docs/SOLUTION_DOCUMENT.md)** – Technical solution design, requirements, data model, and architecture
+- **[Business Requirements (BR)](docs/BR.md)** – Business requirements
+- **[Non-Functional Requirements (NFR)](docs/NFR.md)** – Non-functional requirements
+- **[Stories and Tasks](docs/STORIES.md)** – Implementation stories and tasks
+- **[CI/CD Setup](docs/CI-CD.md)** – GitHub Actions setup and branch protection
 
 ## Quick Overview
 

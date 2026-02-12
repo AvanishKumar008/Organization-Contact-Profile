@@ -1,0 +1,37 @@
+# Deploy on Merge - Deploy to Developer Org after PR merge
+# Triggers on push to main (after merge)
+# NFR-005
+
+name: Deploy on Merge
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Developer Org
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Salesforce CLI
+        uses: salesforcecli/setup-sf@v3
+
+      - name: Authenticate to Target Org
+        env:
+          SF_AUTH_URL: ${{ secrets.SF_DEV_ORG_AUTH_URL }}
+        run: |
+          echo "$SF_AUTH_URL" | base64 -d > auth_url.txt
+          sf org login sfdxurl --sfdx-url-file auth_url.txt --alias dev --set-default
+
+      - name: Deploy to Developer Org
+        run: |
+          sf project deploy start \
+            --source-dir force-app/main/default \
+            --target-org dev \
+            --wait 10

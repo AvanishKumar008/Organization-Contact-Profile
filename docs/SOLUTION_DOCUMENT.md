@@ -38,6 +38,8 @@ There is a need for a centralized, professional profile system that:
 
 ## 2. Requirements
 
+For detailed Business Requirements (BR) and Non-Functional Requirements (NFR), see [docs/BR.md](BR.md) and [docs/NFR.md](NFR.md).
+
 ### 2.1 Functional Requirements
 
 | ID | Requirement | Priority |

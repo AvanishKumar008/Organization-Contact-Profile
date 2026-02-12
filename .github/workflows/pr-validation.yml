@@ -32,7 +32,7 @@ jobs:
           SF_DEVHUB_AUTH_URL: ${{ secrets.SF_DEVHUB_AUTH_URL }}
         run: |
           echo "$SF_DEVHUB_AUTH_URL" | base64 -d > auth_url.txt
-          sf org login sfdxurl --sfdx-url-file auth_url.txt --alias DevHub --set-default
+          sf org login sfdx-url --sfdx-url-file auth_url.txt --alias DevHub --set-default
 
       - name: Create Scratch Org
         run: |

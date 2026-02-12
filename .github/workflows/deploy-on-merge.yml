@@ -27,7 +27,7 @@ jobs:
           SF_AUTH_URL: ${{ secrets.SF_DEV_ORG_AUTH_URL }}
         run: |
           echo "$SF_AUTH_URL" | base64 -d > auth_url.txt
-          sf org login sfdxurl --sfdx-url-file auth_url.txt --alias dev --set-default
+          sf org login sfdx-url --sfdx-url-file auth_url.txt --alias dev --set-default
 
       - name: Deploy to Developer Org
         run: |

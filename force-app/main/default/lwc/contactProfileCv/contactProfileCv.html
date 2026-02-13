@@ -1,0 +1,136 @@
+<template>
+    <lightning-card title="Profile" icon-name="standard:contact">
+        <div slot="actions"></div>
+        <div class="slds-p-around_medium">
+            <template lwc:if={error}>
+                <div class="slds-m-bottom_medium">
+                    <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                        <span class="slds-assistive-text">Error</span>
+                        <h2>{error.body.message}</h2>
+                    </div>
+                </div>
+            </template>
+
+            <template lwc:if={hasData}>
+                <div class="profile-header slds-m-bottom_large">
+                    <div class="header-row">
+                        <template lwc:if={profileData.photoUrl}>
+                            <img src={profileData.photoUrl} alt={profileData.name} class="profile-photo" />
+                        </template>
+                        <div class="header-info">
+                            <h1 class="slds-text-heading_large slds-m-bottom_x-small">{profileData.name}</h1>
+                            <template lwc:if={profileData.headline}>
+                                <p class="slds-text-body_regular slds-text-color_weak">{profileData.headline}</p>
+                            </template>
+                        </div>
+                    </div>
+                    <template lwc:if={profileData.summary}>
+                        <div class="slds-m-top_medium">
+                            <p class="slds-text-body_regular">{profileData.summary}</p>
+                        </div>
+                    </template>
+                </div>
+
+                <template lwc:if={hasTimeline}>
+                    <section class="slds-m-bottom_x-large">
+                        <h2 class="slds-text-heading_medium slds-m-bottom_medium section-title">Experience & Projects</h2>
+                        <div class="timeline">
+                            <template for:each={timelineItems} for:item="item">
+                                <div key={item.id} class="timeline-item" data-id={item.id} data-type={item.type}
+                                    onclick={handleTimelineClick} role="button" tabindex="0"
+                                    onkeydown={handleKeyDown}>
+                                    <div class="timeline-marker {item.type}"></div>
+                                    <div class="timeline-content">
+                                        <span class="timeline-type-badge">{item.type}</span>
+                                        <h3 class="slds-text-heading_small">{item.title}</h3>
+                                        <template lwc:if={item.subtitle}>
+                                            <p class="slds-text-body_small slds-text-color_weak">{item.subtitle}</p>
+                                        </template>
+                                        <p class="slds-text-body_small date-label">{item.dateLabel}</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </section>
+                </template>
+
+                <template lwc:if={hasSkills}>
+                    <section class="slds-m-bottom_x-large">
+                        <h2 class="slds-text-heading_medium slds-m-bottom_medium section-title">Skills</h2>
+                        <div class="skills-grid">
+                            <template for:each={skillItems} for:item="skill">
+                                <div key={skill.id} class="skill-tile prof-{skill.proficiencyLevel}">
+                                    <span class="skill-name">{skill.name}</span>
+                                    <template lwc:if={skill.proficiency}>
+                                        <span class="skill-proficiency">{skill.proficiency}</span>
+                                    </template>
+                                    <template lwc:if={skill.category}>
+                                        <span class="skill-category">{skill.category}</span>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </section>
+                </template>
+
+                <template lwc:if={hasEvents}>
+                    <section class="slds-m-bottom_medium">
+                        <h2 class="slds-text-heading_medium slds-m-bottom_medium section-title">Events</h2>
+                        <ul class="slds-list_dotted">
+                            <template for:each={eventItems} for:item="evt">
+                                <li key={evt.id} class="slds-m-bottom_small">
+                                    <strong>{evt.eventName}</strong>
+                                    <template lwc:if={evt.role}> — {evt.role}</template>
+                                    <template lwc:if={evt.topic}>: {evt.topic}</template>
+                                    <template lwc:if={evt.eventDate}>
+                                        <span class="slds-text-color_weak"> ({evt.eventDate})</span>
+                                    </template>
+                                </li>
+                            </template>
+                        </ul>
+                    </section>
+                </template>
+            </template>
+
+            <template lwc:elseif={showPlaceholder}>
+                <p class="slds-text-color_weak">Open a Contact record to view the profile.</p>
+            </template>
+        </div>
+    </lightning-card>
+
+    <template lwc:if={showModal}>
+        <section class="slds-modal slds-fade-in-open" role="dialog" tabindex="-1" aria-labelledby="modal-heading"
+            aria-modal="true" aria-describedby="modal-content">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal} aria-label="Close modal">×</button>
+                    <h2 id="modal-heading" class="slds-modal__title slds-hyphenate">
+                        <template lwc:if={selectedItem}>{selectedItem.title}</template>
+                    </h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content">
+                    <template lwc:if={selectedItem}>
+                        <p class="slds-text-body_regular slds-m-bottom_small"><strong>Type:</strong> {selectedItem.type}</p>
+                        <template lwc:if={selectedItem.subtitle}>
+                            <p class="slds-text-body_regular slds-m-bottom_small"><strong>Company/Type:</strong> {selectedItem.subtitle}</p>
+                        </template>
+                        <template lwc:if={selectedItem.dateLabel}>
+                            <p class="slds-text-body_regular slds-m-bottom_small"><strong>Date:</strong> {selectedItem.dateLabel}</p>
+                        </template>
+                        <template lwc:if={selectedItem.description}>
+                            <p class="slds-text-body_regular slds-m-bottom_small"><strong>Description:</strong></p>
+                            <p class="slds-text-body_regular">{selectedItem.description}</p>
+                        </template>
+                        <template lwc:if={selectedItem.url}>
+                            <p class="slds-m-top_small">
+                                <a href={selectedItem.url} target="_blank" rel="noopener noreferrer" class="slds-link">View project</a>
+                            </p>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" onclick={handleModalBackdrop}></div>
+    </template>
+</template>

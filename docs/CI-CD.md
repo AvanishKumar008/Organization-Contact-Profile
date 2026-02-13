@@ -29,19 +29,17 @@ This project uses GitHub Actions for CI/CD:
 
 | Secret | Description | How to Create |
 |--------|-------------|----------------|
-| `SF_DEVHUB_AUTH_URL` | DevHub auth URL (base64) | See below |
+| `SF_DEVHUB_AUTH_URL` | DevHub auth URL (raw or base64) | See below |
 
-**Create SF_DEVHUB_AUTH_URL:**
+**Create SF_DEVHUB_AUTH_URL (option A – raw URL, recommended):**
 
 ```bash
-# 1. Auth to DevHub locally
 sf org login web --alias DevHub --instance-url https://login.salesforce.com
-
-# 2. Get auth URL (base64 encoded)
-sf org display -o DevHub --verbose --json | jq -r .result.sfdxAuthUrl | base64 -w 0
-
-# 3. Copy output and add as GitHub secret: Settings > Secrets and variables > Actions
+sf org display -o DevHub --verbose --json | jq -r .result.sfdxAuthUrl
+# Copy output (starts with force://) and paste as GitHub secret
 ```
+
+**Option B – base64:** Use if storing raw URL causes issues. Workflow supports both.
 
 ### 3.2 For Deploy on Merge
 
@@ -53,15 +51,21 @@ sf org display -o DevHub --verbose --json | jq -r .result.sfdxAuthUrl | base64 -
 
 ## 4. Branch Protection (Recommended)
 
-Enforce PR validation before merge:
+Enforce PR validation and approvals before merge:
 
-1. **Settings** > **Branches** > **Add branch protection rule**
+1. **Settings** > **Branches** > **Add branch protection rule** (or edit existing)
 2. **Branch name pattern:** `main`
 3. Enable:
    - **Require a pull request before merging**
+   - **Require approvals** – set "Required number of approvals" to 1 (or more)
    - **Require status checks to pass before merging**
    - **Require branches to be up to date before merging**
-4. **Status checks:** Add `validate` (from PR Validation job)
+4. **Status checks:** Click "Add" and select **`validate`** from the dropdown.  
+   - If not listed, run the workflow once on a PR – the check will appear after the first run.  
+   - The exact name may be `validate` or `Validate Deployment`.
+5. Optional:
+   - **Dismiss stale pull request approvals when new commits are pushed**
+   - **Require review from Code Owners** (if CODEOWNERS is configured)
 
 ---
 
@@ -121,3 +125,4 @@ If deploy fails, the PR cannot be merged (when branch protection is enabled).
 | Scratch org creation fails | Verify DevHub is enabled; check org limits |
 | Deploy fails | Check metadata; run `sf project deploy start` locally |
 | Secret not found | Ensure secret name matches exactly; check repo vs org secrets |
+| "validate Expected — Waiting for status" | Run workflow once on a PR; add the status check that appears (e.g. `validate`) to branch protection |

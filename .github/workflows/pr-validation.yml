@@ -11,6 +11,7 @@ on:
       - 'force-app/**'
       - 'config/**'
       - 'sfdx-project.json'
+      - '.github/workflows/**'
   workflow_dispatch:
 
 jobs:
@@ -24,19 +25,26 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Salesforce CLI
-        uses: salesforcecli/setup-sf@v3
+        run: npm install -g @salesforce/cli
 
       - name: Authenticate to DevHub
         env:
           SF_DEVHUB_AUTH_URL: ${{ secrets.SF_DEVHUB_AUTH_URL }}
         run: |
-          echo "$SF_DEVHUB_AUTH_URL" | base64 -d > auth_url.txt
-          sf org login sfdxurl --sfdx-url-file auth_url.txt --alias DevHub --set-default
+          # Support raw URL or base64-encoded; remove newlines (secrets may wrap when pasted)
+          AUTH_INPUT=$(echo -n "$SF_DEVHUB_AUTH_URL" | tr -d '\n')
+          if [[ "$AUTH_INPUT" == force://* ]]; then
+            echo -n "$AUTH_INPUT" > auth_url.txt
+          else
+            echo -n "$AUTH_INPUT" | base64 -d | tr -d '\n' > auth_url.txt
+          fi
+          sf org login sfdx-url --sfdx-url-file auth_url.txt --alias DevHub --set-default --set-default-dev-hub
 
       - name: Create Scratch Org
         run: |
           sf org create scratch \
             --definition-file config/project-scratch-def.json \
+            --target-dev-hub DevHub \
             --alias "pr-${{ github.event.pull_request.number || github.run_id }}" \
             --set-default \
             --duration-days 1
@@ -50,8 +58,8 @@ jobs:
 
       - name: Delete Scratch Org
         if: always()
+        continue-on-error: true
         run: |
           sf org delete scratch \
             --target-org pr-${{ github.event.pull_request.number || github.run_id }} \
-            --no-prompt \
-            --force || true
+            --no-prompt || true

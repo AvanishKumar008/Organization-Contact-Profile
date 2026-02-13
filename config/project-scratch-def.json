@@ -2,9 +2,5 @@
   "orgName": "Self Profile Org",
   "edition": "Developer",
   "features": [],
-  "settings": {
-    "orgPreferenceSettings": {
-      "s1DesktopEnabled": true
-    }
-  }
+  "settings": {}
 }

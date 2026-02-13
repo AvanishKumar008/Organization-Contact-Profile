@@ -26,7 +26,13 @@ jobs:
         env:
           SF_AUTH_URL: ${{ secrets.SF_DEV_ORG_AUTH_URL }}
         run: |
-          echo "$SF_AUTH_URL" | base64 -d > auth_url.txt
+          # Support raw URL or base64-encoded; remove newlines (secrets may wrap when pasted)
+          AUTH_INPUT=$(echo -n "$SF_AUTH_URL" | tr -d '\n')
+          if [[ "$AUTH_INPUT" == force://* ]]; then
+            echo -n "$AUTH_INPUT" > auth_url.txt
+          else
+            echo -n "$AUTH_INPUT" | base64 -d | tr -d '\n' > auth_url.txt
+          fi
           sf org login sfdx-url --sfdx-url-file auth_url.txt --alias dev --set-default
 
       - name: Deploy to Developer Org

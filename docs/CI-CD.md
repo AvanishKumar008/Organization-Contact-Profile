@@ -29,19 +29,17 @@ This project uses GitHub Actions for CI/CD:
 
 | Secret | Description | How to Create |
 |--------|-------------|----------------|
-| `SF_DEVHUB_AUTH_URL` | DevHub auth URL (base64) | See below |
+| `SF_DEVHUB_AUTH_URL` | DevHub auth URL (raw or base64) | See below |
 
-**Create SF_DEVHUB_AUTH_URL:**
+**Create SF_DEVHUB_AUTH_URL (option A – raw URL, recommended):**
 
 ```bash
-# 1. Auth to DevHub locally
 sf org login web --alias DevHub --instance-url https://login.salesforce.com
-
-# 2. Get auth URL (base64 encoded)
-sf org display -o DevHub --verbose --json | jq -r .result.sfdxAuthUrl | base64 -w 0
-
-# 3. Copy output and add as GitHub secret: Settings > Secrets and variables > Actions
+sf org display -o DevHub --verbose --json | jq -r .result.sfdxAuthUrl
+# Copy output (starts with force://) and paste as GitHub secret
 ```
+
+**Option B – base64:** Use if storing raw URL causes issues. Workflow supports both.
 
 ### 3.2 For Deploy on Merge
 

@@ -58,8 +58,8 @@ jobs:
 
       - name: Delete Scratch Org
         if: always()
+        continue-on-error: true
         run: |
           sf org delete scratch \
             --target-org pr-${{ github.event.pull_request.number || github.run_id }} \
-            --no-prompt \
-            --force || true
+            --no-prompt || true

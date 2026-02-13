@@ -143,7 +143,7 @@ erDiagram
 ### Phase 3: User Interface (Week 3)
 
 #### 4.3.1 Full Profile Lightning Record Page
-- Create record page for Contact: `Contact_Full_Profile`
+- Add contactProfileCv LWC to Contact record page (no dedicated FlexiPage)
 - Sections: Header, Summary, Experience, Skills, Projects, Events
 - Use standard Record Detail and Related List components
 
@@ -189,7 +189,7 @@ force-app/main/default/
 │   ├── Event_Participant__c/ (new)
 │   └── Profile__c/          (remove or keep)
 ├── flexipages/
-│   └── Contact_Full_Profile.flexipage-meta.xml
+│   └── (contactProfileCv LWC on record page)
 ├── layouts/
 │   ├── Contact-Profile Layout.layout-meta.xml
 │   └── ...

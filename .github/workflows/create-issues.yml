@@ -1,0 +1,22 @@
+# Create GitHub Issues for BR, NFR, Stories
+# Run manually: Actions tab > Create GitHub Issues > Run workflow
+
+name: Create GitHub Issues
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./scripts/create-github-issues.sh

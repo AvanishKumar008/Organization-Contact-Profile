@@ -6,15 +6,21 @@ This guide explains how to create and manage BR, NFR, Story, and Task issues in 
 
 ## 1. Create Issues (One-Time Setup)
 
-Run the script to create all issues:
+### Option A: GitHub Actions (Recommended)
+
+1. Go to **Actions** tab in the repo
+2. Select **Create GitHub Issues** workflow
+3. Click **Run workflow**
+4. Wait for it to complete – issues will appear under **Issues** tab
+
+### Option B: Run Script Locally
 
 ```bash
-# Option A: Using Personal Access Token
 # Create token at https://github.com/settings/tokens (scope: repo)
 export GITHUB_TOKEN=ghp_your_token_here
 ./scripts/create-github-issues.sh
 
-# Option B: Using GitHub CLI (if installed)
+# Or with GitHub CLI
 gh auth login
 export GITHUB_TOKEN=$(gh auth token)
 ./scripts/create-github-issues.sh

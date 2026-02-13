@@ -391,6 +391,9 @@
         <relatedList>Experience__c.Contact__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <relatedList>Contact_Skill__c.Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>ACTIVITY.SUBJECT</fields>
         <fields>EMAIL_STATUS.CREATED_DATE</fields>
         <fields>EMAIL_STATUS.FIRST_OPEN_DATE</fields>

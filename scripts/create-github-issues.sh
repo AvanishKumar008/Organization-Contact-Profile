@@ -482,7 +482,7 @@ create_issue "[STORY-009] Full Profile Lightning Record Page" \
 Create Lightning Record Page for Contact displaying Header, Summary, Experience, Skills, Projects, Events.
 
 ### Tasks
-- [ ] TASK-009-001: Create Contact_Full_Profile.flexipage-meta.xml
+- [ ] TASK-009-001: Add contactProfileCv LWC to Contact record page
 - [ ] TASK-009-002: Assign Full Profile as default page for Contact
 
 ### Branch

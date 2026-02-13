@@ -8,8 +8,9 @@
     <enableReports>true</enableReports>
     <label>Experience</label>
     <nameField>
+        <displayFormat>EXP-{0000}</displayFormat>
         <label>Experience Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Experiences</pluralLabel>
     <sharingModel>ReadWrite</sharingModel>

@@ -11,6 +11,7 @@ Salesforce professional profile project with Experience, Skills, Projects and Ev
 - **[Stories and Tasks](docs/STORIES.md)** – Implementation stories and tasks
 - **[CI/CD Setup](docs/CI-CD.md)** – GitHub Actions setup and branch protection
 - **[Test Plan](docs/TEST_PLAN.md)** – Test cases and execution checklist
+- **[GitHub Issues Setup](docs/GITHUB_ISSUES_SETUP.md)** – Create BR/NFR/Story issues; status labels; workflow
 
 ## Quick Overview
 

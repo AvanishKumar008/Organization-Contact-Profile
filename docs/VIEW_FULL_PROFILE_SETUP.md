@@ -1,26 +1,12 @@
-# View Profile on Contact
+# View Full Profile Button Setup
 
-## Option A: Contact Profile Page (Recommended)
+The **View Full Profile** Quick Action is added to **existing** Contact record pages only. If you do not have a Contact Lightning record page, create your own page first, then add the action.
 
-A **Contact Profile** Lightning record page is deployed. To view a Contact's profile:
-
-1. Open any Contact record
-2. Use the **page dropdown** (top of record, next to the tab bar) 
-3. Select **Contact Profile**
-
-The profile (timeline, skills, events) will display.
-
-If "Contact Profile" does not appear in the dropdown: Setup → Object Manager → Contact → Lightning Record Pages → ensure **Contact Profile** is assigned to your app.
-
-## Option B: View Full Profile Button (Manual Setup)
-
-The **View Full Profile** Quick Action must be added to the Contact record page to appear.
-
-### Manual Setup (App Builder)
+## Add to Existing Contact Page (App Builder)
 
 1. Go to **Setup** → **Object Manager** → **Contact**
 2. Click **Lightning Record Pages**
-3. Open the **default** Contact record page (e.g. "Contact Record Page")
+3. Open an **existing** Contact record page
 4. Click **Edit**
 5. In the **Highlights Panel** (top section), click the **Setup** (gear) icon
 6. Under **Salesforce Mobile and Lightning Experience Actions**, click **Add**
@@ -38,8 +24,7 @@ The **View Full Profile** Quick Action must be added to the Contact record page 
 
 ## Verifying
 
-- **Option A:** Page dropdown shows "Contact Profile" – select it to view the profile
-- **Option B:** View Full Profile button appears in the action bar (top right, near Edit/Delete)
+Open any Contact record. The **View Full Profile** button should appear in the action bar (top right, near Edit/Delete).
 
 ---
 
